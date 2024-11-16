@@ -1,0 +1,12 @@
+{class classeTeste 
+
+bool teste1;
+int teste2;
+
+while (True)
+	void metodo1(int arg1, bool arg2) {
+	    teste2 = teste2 + arg1;
+	}
+;
+
+}
