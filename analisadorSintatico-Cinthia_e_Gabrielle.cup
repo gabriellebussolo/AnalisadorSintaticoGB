@@ -2,15 +2,10 @@ import java_cup.runtime.*;
 import java.util.*;
 import java.io.*;
 
-parser code {:
-    public boolean syntaxErrors;
+import TACNode.java;
 
-    public void syntax_error(Symbol current_token) {
-        report_error(
-            "Syntax error at line " + (current_token.left+1) + ", column "
-            + current_token.right, null
-        );
-    }
+parser code {:
+    List<TACNode> TACList = new ArrayList<>(); // Lista para armazenar TACs
 :};
 
 // Declara as variaveis terminais
@@ -28,7 +23,7 @@ terminal WHILE;                                                             //co
 
 // Declara as variaveis nao terminais
 non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos;
-non terminal argumentos, tipoAtributo, tipoMetodo, comandos, comando, ifSemElse;
+non terminal argumentos, tipoAtributo, tipoMetodo, comandos, comando, ifSemElse, comandoAritmetico;
 non terminal termoAritmetico, termoBooleano, expressaoAritmetica, expressaoBooleana, termo;
 non terminal operadorLogico, operadorAritmetico, operadorRelacional;
 
@@ -63,10 +58,16 @@ comandos ::= comandos comando
 
 ifSemElse ::= IF PARESQ termo PARDIR comandos | ifSemElse ELSE comandos;
 
-comando ::= ID IGUAL termo PONTOEVIRGULA
+comando ::= comandoAritmetico
           | RETORNO termo PONTOEVIRGULA
           | WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA
           | ifSemElse;
+
+comandoAritmetico ::= ID IGUAL termo PONTOEVIRGULA
+{:
+    RESULT = new TACNode("=", $3.result, null, $1.result);
+    TACList.add(RESULT);
+:};
 
 operadorLogico ::= NOT | AND | OR;
 operadorAritmetico ::= SOMA | MULTIPLICACAO;
