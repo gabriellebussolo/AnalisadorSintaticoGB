@@ -10,7 +10,7 @@ import java_cup.runtime.Symbol;
 
 %public
 %unicode
-%class foolLexer
+%class fooliLexer
 %cup
 %line
 %column
@@ -34,6 +34,7 @@ or = or
 if = if
 else = else
 retorno = return
+while = while
 
 boolType = bool
 intType = int
@@ -79,6 +80,8 @@ ignorar = [\n|\s|\t\r]
 {or} { return symbol(sym.OR); }
 
 {retorno} { return symbol(sym.RETORNO); }
+
+{while} { return symbol(sym.WHILE); }
 
 // Identificador e numeros
 {identificador} { return symbol(sym.ID); }

@@ -24,6 +24,7 @@ terminal NOT, AND, OR;                                            // Operadores 
 terminal SOMA, MULTIPLICACAO;                                       // Operadores aritmeticos
 terminal OPIGUAL, OPMAIOR, OPMENOR;                                     // Operadores relacionais
 terminal IGUAL, PARESQ, PARDIR, CHAVEESQ, CHAVEDIR, PONTOEVIRGULA, VIRGULA; // Pontuacao
+terminal WHILE;                                                             //comando de repeticao while
 
 // Declara as variaveis nao terminais
 non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos;
@@ -36,7 +37,7 @@ precedence left OR, AND, NOT;
 precedence nonassoc OPIGUAL, OPMAIOR, OPMENOR;
 precedence left SOMA, MULTIPLICACAO;
 precedence left BOOL, INT;
-precedence left ELSE, IF, ID, RETORNO;
+precedence left ELSE, IF, ID, RETORNO, WHILE;
 
 //Define a gramatica
 
@@ -64,6 +65,7 @@ ifSemElse ::= IF PARESQ termo PARDIR comandos | ifSemElse ELSE comandos;
 
 comando ::= ID IGUAL termo PONTOEVIRGULA
           | RETORNO termo PONTOEVIRGULA
+          | WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA
           | ifSemElse;
 
 operadorLogico ::= NOT | AND | OR;
