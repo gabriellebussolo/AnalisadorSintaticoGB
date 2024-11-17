@@ -788,7 +788,7 @@ public class fooliLexer implements java_cup.runtime.Scanner {
           // fall through
           case 33: break;
           case 7:
-            { return symbol(sym.NUMERO);
+            { return symbol(sym.NUMERO, yytext());
             }
           // fall through
           case 34: break;
@@ -813,7 +813,7 @@ public class fooliLexer implements java_cup.runtime.Scanner {
           // fall through
           case 38: break;
           case 12:
-            { return symbol(sym.ID);
+            { return symbol(sym.ID, yytext());
             }
           // fall through
           case 39: break;
@@ -858,7 +858,7 @@ public class fooliLexer implements java_cup.runtime.Scanner {
           // fall through
           case 47: break;
           case 21:
-            { return symbol(sym.CONSTANTE);
+            { return symbol(sym.CONSTANTE, yytext());
             }
           // fall through
           case 48: break;

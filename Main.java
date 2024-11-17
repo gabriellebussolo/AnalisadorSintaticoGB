@@ -1,5 +1,6 @@
+
 import java.io.*;
-import TACNode.java;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -19,18 +20,18 @@ public class Main {
         parser p = new parser(lexer);
 
         // Recupera a lista de TACs gerada
-        List<TACNode> tacList = p.tacList;
-
-        // Imprime o código intermediário (TACs)
-        System.out.println("Código Intermediário (TAC):");
-        for (TACNode tac : tacList) {
-            System.out.println(tac);
-        }
+        List<TACNode> TACList = p.TACList;
 
         try {
             // Inicie a análise
             p.parse();
             System.out.println("Parse concluído com sucesso.");
+
+            // Imprime o código intermediário (TACs)
+            System.out.println("Código Intermediário (TAC):");
+            for (TACNode tac : TACList) {
+                System.out.println(tac);
+            }
         } catch (Exception e) {
             System.err.println("Erro durante a análise: " + e.getMessage());
             e.printStackTrace();

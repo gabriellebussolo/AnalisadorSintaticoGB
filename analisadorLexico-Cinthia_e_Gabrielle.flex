@@ -74,7 +74,7 @@ ignorar = [\n|\s|\t\r]
 {if} { return symbol(sym.IF); }
 {else} { return symbol(sym.ELSE); }
 
-{constante} { return symbol(sym.CONSTANTE); }
+{constante} { return symbol(sym.CONSTANTE, yytext()); }
 {not} { return symbol(sym.NOT); }
 {and} { return symbol(sym.AND); }
 {or} { return symbol(sym.OR); }
@@ -84,8 +84,8 @@ ignorar = [\n|\s|\t\r]
 {while} { return symbol(sym.WHILE); }
 
 // Identificador e numeros
-{identificador} { return symbol(sym.ID); }
-{numero} { return symbol(sym.NUMERO); }
+{identificador} { return symbol(sym.ID, yytext()); }
+{numero} { return symbol(sym.NUMERO, yytext()); }
 
 // Operadores
 {soma} { return symbol(sym.SOMA); }

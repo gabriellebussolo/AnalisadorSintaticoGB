@@ -64,38 +64,5 @@ public class sym {
   "VIRGULA",
   "WHILE"
   };
-public String[] TT;
-	public sym(){
-		TT = new String[100];
-		TT[13]=new String("AND");
-		TT[16]=new String("MULTIPLICACAO");
-		TT[23]=new String("CHAVEESQ");
-		TT[7]=new String("ELSE");
-		TT[24]=new String("CHAVEDIR");
-		TT[20]=new String("IGUAL");
-		TT[14]=new String("OR");
-		TT[4]=new String("INT");
-		TT[27]=new String("WHILE");
-		TT[12]=new String("NOT");
-		TT[18]=new String("OPMAIOR");
-		TT[11]=new String("RETORNO");
-		TT[6]=new String("IF");
-		TT[9]=new String("ID");
-		TT[26]=new String("VIRGULA");
-		TT[8]=new String("CONSTANTE");
-		TT[0]=new String("EOF");
-		TT[21]=new String("PARESQ");
-		TT[19]=new String("OPMENOR");
-		TT[22]=new String("PARDIR");
-		TT[1]=new String("error");
-		TT[10]=new String("NUMERO");
-		TT[17]=new String("OPIGUAL");
-		TT[3]=new String("BOOL");
-		TT[2]=new String("CLASSE");
-		TT[15]=new String("SOMA");
-		TT[25]=new String("PONTOEVIRGULA");
-		TT[5]=new String("VOID");
-	}
-public String getTT(int i){return TT[i];}
 }
 
