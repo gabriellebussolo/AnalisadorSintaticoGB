@@ -553,11 +553,8 @@ class CUP$parser$actions {
 		
     int i = -1;
     for(TabelaSimbolosNode no: tabelaSimbolos){
-        System.out.println("string = " + id.toString());
-        System.out.println("nome = " +  no.nome);
         if(no.nome.equals(id.toString())){
             i = tabelaSimbolos.indexOf(no);
-            System.out.println(i);
             break;
         }
     }
