@@ -115,12 +115,24 @@ comandos ::= comandos comando
 
 ifSemElse ::= IF PARESQ termo PARDIR comandos | ifSemElse ELSE comandos;
 
-comando ::= comandoAritmetico
-          | RETORNO termo PONTOEVIRGULA
-          | WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA
-          | ifSemElse;
+comando ::= comandoAritmetico;
+comando ::= RETORNO termo PONTOEVIRGULA;
+comando ::= WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA;
+comando ::= ifSemElse;
 
-comandoAritmetico ::= ID:id IGUAL termo:termo PONTOEVIRGULA;
+comandoAritmetico ::= ID:id IGUAL termo:termo PONTOEVIRGULA
+{:
+    int i = -1;
+    for(TabelaSimbolosNode no: tabelaSimbolos){
+        if(no.nome.equals(id.toString())){
+            i = tabelaSimbolos.indexOf(no);
+            break;
+        }
+    }
+    
+    RESULT = new TACNode(null, "st[" + i +"]" + " := " + termo.place, "termo");
+    TACList.add(RESULT);
+:};
 
 termo ::= ID:id 
 {:
