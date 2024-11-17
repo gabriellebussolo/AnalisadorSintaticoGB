@@ -13,15 +13,27 @@ parser code {:
         );
     }
     
-    // Variável global para o contador de temporários
+    // Variável para o contador de temporários
     private int tempCount = 0;
+
+    // Variável para o contador de labels
+    private int labelCount = 0;
 
     // Método para incrementar e gerar um novo temporário
     private String newTemp() {
         return "t" + (tempCount++);
     }
 
-    List<TACNode> TACList = new ArrayList<>(); // Lista para armazenar TACs
+    // Método para incrementar e gerar um novo label
+    private String newLabel() {
+        return "L" + (labelCount++);
+    }
+
+    // Lista para armazenar TACs
+    List<TACNode> TACList = new ArrayList<>(); 
+
+    // Lista para armazenar a tabela de simbolos
+    List<TabelaSimbolosNode> tabelaSimbolos = new ArrayList<>();
 :};
 
 // Declara as variaveis terminais
@@ -55,7 +67,17 @@ declaracaoClasse ::= CHAVEESQ CLASSE ID atributos metodos CHAVEDIR;
 
 atributos ::= declaracaoAtributo atributos | declaracaoAtributo;
 
-declaracaoAtributo ::= tipoAtributo ID PONTOEVIRGULA;
+declaracaoAtributo ::= BOOL:tipo ID:id PONTOEVIRGULA
+{:
+    TabelaSimbolosNode atributo = new TabelaSimbolosNode(tipo.toString(), id.toString());
+    tabelaSimbolos.add(atributo);
+:};
+
+declaracaoAtributo ::= INT:tipo ID:id PONTOEVIRGULA
+{:
+    TabelaSimbolosNode atributo = new TabelaSimbolosNode(tipo.toString(), id.toString());
+    tabelaSimbolos.add(atributo);
+:};
 
 argumentos ::= tipoAtributo ID VIRGULA argumentos
              | tipoAtributo ID;
@@ -78,131 +100,130 @@ comando ::= comandoAritmetico
           | WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA
           | ifSemElse;
 
-comandoAritmetico ::= ID:id IGUAL termo:termo PONTOEVIRGULA
-{:
-    String temp = "t" + tempCount++;
-
-    RESULT = new TACNode(null, id.toString(), termo.result, temp);
-    TACList.add(RESULT);
-:};
+comandoAritmetico ::= ID:id IGUAL termo:termo PONTOEVIRGULA;
 
 termo ::= ID:id 
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, id.toString() , null, temp);
+    int i = -1;
+    for(TabelaSimbolosNode no: tabelaSimbolos){
+        if(no.nome.equals(id.toString())){
+            i = tabelaSimbolos.indexOf(no);
+            break;
+        }
+    }
+    
+    RESULT = new TACNode("st[" + i +"]", null, "termo");
     TACList.add(RESULT);
 :};
 
 termo ::= expressaoAritmetica:expr
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, expr.result, null, temp);
+    RESULT = new TACNode(expr.place, expr.code, "expressaoAritmetica");
     TACList.add(RESULT);
 :};
 
 termo ::= expressaoBooleana:expr
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, expr.result, null, temp);
+    RESULT = new TACNode(expr.place, expr.code, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoAritmetica ::= termoAritmetico:termoA
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, termoA.result, null, temp);
+    RESULT = new TACNode(termoA.place, termoA.code, "expressaoAritmetica");
     TACList.add(RESULT);
 :};
 
 expressaoAritmetica ::= termo:t1 SOMA termo:t2
 {:
-    String temp = "t" + tempCount++;
+    String temp = newTemp();
 
-    RESULT = new TACNode("+", t1.result, t2.result, temp);
+    RESULT = new TACNode(temp, temp + " := " + t1.place + " + " + t2.place, "expressaoAritmetica");
     TACList.add(RESULT);
 :};
 
 expressaoAritmetica ::= termo:t1 MULTIPLICACAO termo:t2
 {:
-    String temp = "t" + tempCount++;
+    String temp = newTemp();
 
-    RESULT = new TACNode("+", t1.result, t2.result, temp);
+    RESULT = new TACNode(temp, temp + " := " + t1.place + " * " + t2.place, "expressaoAritmetica");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= termoBooleano:termoB
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, termoB.result, null, temp);
+    RESULT = new TACNode(termoB.place, termoB.code, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= termo:t1 OPMAIOR termo:t2
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(">", t1.result, t2.result, temp);
+    String temp = newTemp();
+
+    RESULT = new TACNode(temp, temp + " := " + t1.place + " > " + t2.place, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= termo:t1 OPMENOR termo:t2
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode("<", t1.result, t2.result, temp);
+    String temp = newTemp();
+
+    RESULT = new TACNode(temp, temp + " := " + t1.place + " < " + t2.place, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= termo:t1 OPIGUAL termo:t2
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode("==", t1.result, t2.result, temp);
+    String temp = newTemp();
+
+    RESULT = new TACNode(temp, temp + " := " + t1.place + " == " + t2.place, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= NOT termo:t1
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode("NOT", t1.result, null, temp);
+    String temp = newTemp();
+
+    RESULT = new TACNode(temp, "not " + t1.place, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= termo:t1 AND termo:t2
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode("AND", t1.result, t2.result, temp);
+    String temp = newTemp();
+
+    RESULT = new TACNode(temp, t1.place + " and " + t2.place, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 expressaoBooleana ::= termo:t1 OR termo:t2
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode("OR", t1.result, t2.result, temp);
+    String temp = newTemp();
+
+    RESULT = new TACNode(temp, t1.place + " or " + t2.place, "expressaoBooleana");
     TACList.add(RESULT);
 :};
 
 termoAritmetico ::= NUMERO:num
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, num.toString() , null, temp);
+    RESULT = new TACNode(num.toString(), null, "termoAritmetico");
     TACList.add(RESULT);
 :};
 
 termoAritmetico ::= PARESQ expressaoAritmetica:expr PARDIR
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, expr.result, null, temp);
+    RESULT = new TACNode(expr.place, expr.code, "termoAritmetico");
     TACList.add(RESULT);
 :};
 
 termoBooleano ::= CONSTANTE:constante
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, constante.toString() , null, temp);
+    RESULT = new TACNode(constante.toString(), null, "termoAritmetico");
     TACList.add(RESULT);
 :};
 
 termoBooleano ::= PARESQ expressaoBooleana:expr PARDIR
 {:
-    String temp = "t" + tempCount++;
-    RESULT = new TACNode(null, expr.result, null, temp);
+    RESULT = new TACNode(expr.place, expr.code, "termoAritmetico");
     TACList.add(RESULT);
 :};

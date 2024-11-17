@@ -21,6 +21,8 @@ public class Main {
 
         // Recupera a lista de TACs gerada
         List<TACNode> TACList = p.TACList;
+        // Recupera a tabela de simbolos gerada
+        List<TabelaSimbolosNode> tabelaSimbolos = p.tabelaSimbolos;
 
         try {
             // Inicie a análise
@@ -32,6 +34,13 @@ public class Main {
             for (TACNode tac : TACList) {
                 System.out.println(tac);
             }
+
+            // Imprime a tabela de simbolos
+            System.out.println("Tabela de simbolos:");
+            for (TabelaSimbolosNode simbolo : tabelaSimbolos) {
+                System.out.println(simbolo);
+            }
+
         } catch (Exception e) {
             System.err.println("Erro durante a análise: " + e.getMessage());
             e.printStackTrace();

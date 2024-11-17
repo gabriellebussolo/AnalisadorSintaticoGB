@@ -329,7 +329,7 @@ public class fooliLexer implements java_cup.runtime.Scanner {
         return new Symbol(type, yyline, yycolumn);
     }
 
-    private Symbol symbol(int type, Object value) {
+    private Symbol symbol(int type, String value) {
         return new Symbol(type, yyline, yycolumn, value);
     }
 
@@ -848,7 +848,7 @@ public class fooliLexer implements java_cup.runtime.Scanner {
           // fall through
           case 45: break;
           case 19:
-            { return symbol(sym.INT);
+            { return symbol(sym.INT, yytext());
             }
           // fall through
           case 46: break;
@@ -863,7 +863,7 @@ public class fooliLexer implements java_cup.runtime.Scanner {
           // fall through
           case 48: break;
           case 22:
-            { return symbol(sym.BOOL);
+            { return symbol(sym.BOOL, yytext());
             }
           // fall through
           case 49: break;

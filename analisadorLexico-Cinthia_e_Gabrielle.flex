@@ -20,7 +20,7 @@ import java_cup.runtime.Symbol;
         return new Symbol(type, yyline, yycolumn);
     }
 
-    private Symbol symbol(int type, Object value) {
+    private Symbol symbol(int type, String value) {
         return new Symbol(type, yyline, yycolumn, value);
     }
 %}
@@ -67,9 +67,9 @@ ignorar = [\n|\s|\t\r]
 // Palavras reservadas
 {classe} { return symbol(sym.CLASSE); }
 
-{boolType} { return symbol(sym.BOOL); }
-{intType} { return symbol(sym.INT); }
-{voidType} { return symbol(sym.VOID); }
+{boolType} { return symbol(sym.BOOL, yytext()); }
+{intType} { return symbol(sym.INT, yytext()); }
+{voidType} { return symbol(sym.VOID, , yytext()); }
 
 {if} { return symbol(sym.IF); }
 {else} { return symbol(sym.ELSE); }
