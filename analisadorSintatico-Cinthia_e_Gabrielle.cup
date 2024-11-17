@@ -50,7 +50,7 @@ terminal WHILE;                                                             //co
 
 // Declara as variaveis nao terminais
 non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos;
-non terminal argumentos, tipoAtributo, tipoMetodo, comandos, comando, ifSemElse;
+non terminal argumentos, tipoMetodo, comandos, comando, ifSemElse;
 non terminal TACNode expressaoAritmetica, expressaoBooleana, comandoAritmetico;
 non terminal TACNode termoAritmetico, termoBooleano, termo;
 
@@ -103,7 +103,6 @@ argumentos ::= INT:tipo ID:id
     tabelaSimbolos.add(atributo);
 :};
 
-tipoAtributo ::= BOOL | INT;
 tipoMetodo ::= BOOL | INT | VOID;
 
 metodos ::= declaracaoMetodo metodos
