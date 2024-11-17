@@ -79,8 +79,29 @@ declaracaoAtributo ::= INT:tipo ID:id PONTOEVIRGULA
     tabelaSimbolos.add(atributo);
 :};
 
-argumentos ::= tipoAtributo ID VIRGULA argumentos
-             | tipoAtributo ID;
+argumentos ::= BOOL:tipo ID:id VIRGULA argumentos
+{:
+    TabelaSimbolosNode atributo = new TabelaSimbolosNode(tipo.toString(), id.toString());
+    tabelaSimbolos.add(atributo);
+:};
+
+argumentos ::= INT:tipo ID:id VIRGULA argumentos
+{:
+    TabelaSimbolosNode atributo = new TabelaSimbolosNode(tipo.toString(), id.toString());
+    tabelaSimbolos.add(atributo);
+:};
+
+argumentos ::= BOOL:tipo ID:id
+{:
+    TabelaSimbolosNode atributo = new TabelaSimbolosNode(tipo.toString(), id.toString());
+    tabelaSimbolos.add(atributo);
+:};
+
+argumentos ::= INT:tipo ID:id
+{:
+    TabelaSimbolosNode atributo = new TabelaSimbolosNode(tipo.toString(), id.toString());
+    tabelaSimbolos.add(atributo);
+:};
 
 tipoAtributo ::= BOOL | INT;
 tipoMetodo ::= BOOL | INT | VOID;
