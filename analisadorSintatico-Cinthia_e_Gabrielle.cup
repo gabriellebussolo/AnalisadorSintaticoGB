@@ -65,7 +65,7 @@ precedence left ELSE, IF, ID, RETORNO, WHILE;
 
 declaracaoClasse ::= CHAVEESQ CLASSE ID atributos metodos CHAVEDIR;
 
-atributos ::= declaracaoAtributo atributos | declaracaoAtributo;
+atributos ::= declaracaoAtributo atributos | declaracaoAtributo; // nao gera TAC
 
 declaracaoAtributo ::= BOOL:tipo ID:id PONTOEVIRGULA
 {:
