@@ -110,15 +110,77 @@ metodos ::= declaracaoMetodo metodos
 
 declaracaoMetodo ::= tipoMetodo ID PARESQ argumentos PARDIR CHAVEESQ comandos CHAVEDIR;
 
-comandos ::= comandos comando
-           | comando;
+comandos ::= comandos comando:com
+{:
+    RESULT = new TACNode(com.place, com.code, "comandos1");
+    TACList.add(RESULT);
+:};
+comandos ::= comando:com
+{:
+    RESULT = new TACNode(com.place, com.code, "comandos");
+    TACList.add(RESULT);
+:};
 
-ifSemElse ::= IF PARESQ termo PARDIR comandos | ifSemElse ELSE comandos;
+ifSemElse ::= IF PARESQ termo:termo PARDIR comandos:body
+{:
+    String startLabel = newLabel();   
+    String endLabel = newLabel();  
 
-comando ::= comandoAritmetico;
-comando ::= RETORNO termo PONTOEVIRGULA;
-comando ::= WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA;
-comando ::= ifSemElse;
+    TACList.add(new TACNode(startLabel + ":", null, null));  
+    TACList.add(new TACNode("if " + termo.place + " goto " + endLabel, null, null)); 
+
+    TACList.add(new TACNode("goto " + startLabel, null, null));  
+
+    TACList.add(new TACNode(endLabel + ":", null, null));   
+    TACList.add(body.code);  
+:};
+
+ifSemElse ::= ifSemElse ELSE comandos:elseBody
+{:
+    String elseLabel = newLabel();  
+
+    TACList.add(new TACNode("goto " + elseLabel, null, null)); 
+
+    TACList.add(new TACNode(elseLabel + ":", null, null));
+    TACList.addAll(elseBody);  
+:};
+
+comando ::= comandoAritmetico:com
+{:
+    RESULT = new TACNode(com.place, com.code, "comando");
+    TACList.add(RESULT);
+:};
+
+comando ::= RETORNO termo:termo PONTOEVIRGULA
+{:
+    RESULT = new TACNode(termo.place, termo.code, "comando");
+    TACList.add(RESULT);
+:};
+
+comando ::= WHILE PARESQ expressaoBooleana:cond PARDIR comandos:body PONTOEVIRGULA
+{:
+    String startLabel = newLabel();
+    String bodyLabel = newLabel();
+    String endLabel = newLabel();
+
+    TACList.add(new TACNode(startLabel + ":", null, null));
+
+    TACList.add(new TACNode("if " + cond.place + " goto " + bodyLabel, null, null));
+    TACList.add(new TACNode("goto " + endLabel, null, null));
+
+    TACList.add(new TACNode(bodyLabel + ":", null, null));
+    TACList.add(body.code);
+
+    TACList.add(new TACNode("goto " + startLabel, null, null));
+
+    TACList.add(new TACNode(endLabel + ":", null, null));
+:};
+
+comando ::= ifSemElse:ifSemElse
+{:
+    RESULT = new TACNode(ifSemElse.place, ifSemElse.code, "comando");
+    TACList.add(RESULT);
+:};
 
 comandoAritmetico ::= ID:id IGUAL termo:termo PONTOEVIRGULA
 {:
