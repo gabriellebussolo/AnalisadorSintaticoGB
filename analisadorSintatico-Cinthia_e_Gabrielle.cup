@@ -121,28 +121,27 @@ comandos ::= comando:com
     TACList.add(RESULT);
 :};
 
-ifSemElse ::= IF PARESQ termo:termo PARDIR comandos:body
+ifSemElse ::= IF PARESQ termo:termo PARDIR comandos:body PONTOEVIRGULA
 {:
-    String startLabel = newLabel();   
-    String endLabel = newLabel();  
+    String trueLabel = newLabel();   
 
-    TACList.add(new TACNode(startLabel + ":", null, null));  
-    TACList.add(new TACNode("if " + termo.place + " goto " + endLabel, null, null)); 
+    String code = "if"+termo.code+"goto("+trueLabel+")"+body.code;
 
-    TACList.add(new TACNode("goto " + startLabel, null, null));  
+    RESULT = new TACNode(null, code, "ifSemElse"); 
 
-    TACList.add(new TACNode(endLabel + ":", null, null));   
-    TACList.add(body.code);  
+    TACList.add(RESULT);  
 :};
 
-ifSemElse ::= ifSemElse ELSE comandos:elseBody
+ifSemElse ::= ifSemElse ELSE comandos:body PONTOEVIRGULA
 {:
-    String elseLabel = newLabel();  
+    String falseLabel = newLabel();  
 
-    TACList.add(new TACNode("goto " + elseLabel, null, null)); 
+    String code = falseLabel + ":"+body.code;
 
-    TACList.add(new TACNode(elseLabel + ":", null, null));
-    TACList.addAll(elseBody);  
+    RESULT = new TACNode(null, code, "ifSemElse"); 
+
+    TACList.add(RESULT);  
+    
 :};
 
 comando ::= comandoAritmetico:com
@@ -161,8 +160,13 @@ comando ::= WHILE PARESQ expressaoBooleana:cond PARDIR comandos:body PONTOEVIRGU
 {:
     String trueLabel = newLabel();
     String falseLabel = newLabel();
+
+    String code = "";
     
-    String code = trueLabel + ": if not(" + cond.code + ") " + "goto(" + falseLabel + ") " + body.code + "goto(" + trueLabel + ")"+ falseLabel + ":";
+    if(cond.code == null)
+        code = trueLabel + ": if not(" + cond.place + ") " + "goto(" + falseLabel + ") " + body.code + "goto(" + trueLabel + ")"+ falseLabel + ":";
+    else
+        code = trueLabel + ": if not(" + cond.code + ") " + "goto(" + falseLabel + ") " + body.code + "goto(" + trueLabel + ")"+ falseLabel + ":";
 
     RESULT = new TACNode(null, code , "comando");
 
