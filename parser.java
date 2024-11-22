@@ -442,7 +442,7 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 10: // tipoMetodo ::= BOOL 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipoMetodo",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -451,7 +451,7 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 11: // tipoMetodo ::= INT 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipoMetodo",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -460,7 +460,7 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 12: // tipoMetodo ::= VOID 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipoMetodo",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -496,10 +496,10 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 16: // comandos ::= comandos comando 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int comleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int comright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object com = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		TACNode com = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     RESULT = new TACNode(com.place, com.code, "comandos1");
     TACList.add(RESULT);
@@ -511,10 +511,10 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 17: // comandos ::= comando 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int comleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int comright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object com = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		TACNode com = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     RESULT = new TACNode(com.place, com.code, "comandos");
     TACList.add(RESULT);
@@ -526,13 +526,13 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 18: // ifSemElse ::= IF PARESQ termo PARDIR comandos 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int termoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int termoright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		TACNode termo = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 		int bodyleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bodyright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object body = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		TACNode body = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     String startLabel = newLabel();   
     String endLabel = newLabel();  
@@ -552,10 +552,10 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 19: // ifSemElse ::= ifSemElse ELSE comandos 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int elseBodyleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int elseBodyright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object elseBody = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		TACNode elseBody = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     String elseLabel = newLabel();  
 
@@ -571,7 +571,7 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 20: // comando ::= comandoAritmetico 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int comleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int comright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		TACNode com = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
@@ -586,7 +586,7 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 21: // comando ::= RETORNO termo PONTOEVIRGULA 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int termoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int termoright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		TACNode termo = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
@@ -601,29 +601,22 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 22: // comando ::= WHILE PARESQ expressaoBooleana PARDIR comandos PONTOEVIRGULA 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int condleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int condright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		TACNode cond = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		int bodyleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int bodyright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
-		Object body = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		TACNode body = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-    String startLabel = newLabel();
-    String bodyLabel = newLabel();
-    String endLabel = newLabel();
+    String trueLabel = newLabel();
+    String falseLabel = newLabel();
+    
+    String code = trueLabel + ": if not(" + cond.code + ") " + "goto(" + falseLabel + ") " + body.code + "goto(" + trueLabel + ")"+ falseLabel + ":";
 
-    TACList.add(new TACNode(startLabel + ":", null, null));
+    RESULT = new TACNode(null, code , "comando");
 
-    TACList.add(new TACNode("if " + cond.place + " goto " + bodyLabel, null, null));
-    TACList.add(new TACNode("goto " + endLabel, null, null));
-
-    TACList.add(new TACNode(bodyLabel + ":", null, null));
-    TACList.add(body.code);
-
-    TACList.add(new TACNode("goto " + startLabel, null, null));
-
-    TACList.add(new TACNode(endLabel + ":", null, null));
+    TACList.add(RESULT);
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("comando",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -632,10 +625,10 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 23: // comando ::= ifSemElse 
             {
-              Object RESULT =null;
+              TACNode RESULT =null;
 		int ifSemElseleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int ifSemElseright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object ifSemElse = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		TACNode ifSemElse = (TACNode)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     RESULT = new TACNode(ifSemElse.place, ifSemElse.code, "comando");
     TACList.add(RESULT);

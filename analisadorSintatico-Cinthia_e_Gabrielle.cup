@@ -49,8 +49,8 @@ terminal IGUAL, PARESQ, PARDIR, CHAVEESQ, CHAVEDIR, PONTOEVIRGULA, VIRGULA; // P
 terminal WHILE;                                                             //comando de repeticao while
 
 // Declara as variaveis nao terminais
-non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos;
-non terminal argumentos, tipoMetodo, comandos, comando, ifSemElse;
+non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos, argumentos;
+non terminal TACNode tipoMetodo, comandos, comando, ifSemElse;
 non terminal TACNode expressaoAritmetica, expressaoBooleana, comandoAritmetico;
 non terminal TACNode termoAritmetico, termoBooleano, termo;
 
@@ -159,21 +159,14 @@ comando ::= RETORNO termo:termo PONTOEVIRGULA
 
 comando ::= WHILE PARESQ expressaoBooleana:cond PARDIR comandos:body PONTOEVIRGULA
 {:
-    String startLabel = newLabel();
-    String bodyLabel = newLabel();
-    String endLabel = newLabel();
+    String trueLabel = newLabel();
+    String falseLabel = newLabel();
+    
+    String code = trueLabel + ": if not(" + cond.code + ") " + "goto(" + falseLabel + ") " + body.code + "goto(" + trueLabel + ")"+ falseLabel + ":";
 
-    TACList.add(new TACNode(startLabel + ":", null, null));
+    RESULT = new TACNode(null, code , "comando");
 
-    TACList.add(new TACNode("if " + cond.place + " goto " + bodyLabel, null, null));
-    TACList.add(new TACNode("goto " + endLabel, null, null));
-
-    TACList.add(new TACNode(bodyLabel + ":", null, null));
-    TACList.add(body.code);
-
-    TACList.add(new TACNode("goto " + startLabel, null, null));
-
-    TACList.add(new TACNode(endLabel + ":", null, null));
+    TACList.add(RESULT);
 :};
 
 comando ::= ifSemElse:ifSemElse
