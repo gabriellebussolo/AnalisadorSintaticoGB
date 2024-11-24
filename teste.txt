@@ -5,7 +5,9 @@ int teste2;
 
 void metodo1(int arg1, bool arg2) {
 	teste2 = teste2 + arg1;
+}
 
+void main(){
 	while (teste2 > 2)
 		if (teste2 == 1)
 			arg2 = False;

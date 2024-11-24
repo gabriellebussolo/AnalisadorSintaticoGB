@@ -47,10 +47,11 @@ terminal SOMA, MULTIPLICACAO;                                       // Operadore
 terminal OPIGUAL, OPMAIOR, OPMENOR;                                     // Operadores relacionais
 terminal IGUAL, PARESQ, PARDIR, CHAVEESQ, CHAVEDIR, PONTOEVIRGULA, VIRGULA; // Pontuacao
 terminal WHILE;                                                             //comando de repeticao while
+terminal MAIN;                                                          //metodo main
 
 // Declara as variaveis nao terminais
-non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos, argumentos;
-non terminal TACNode tipoMetodo, comandos, comando, ifSemElse;
+non terminal declaracaoClasse, declaracaoAtributo, declaracaoMetodo, metodos, atributos, argumentos, main, tipoMetodo;
+non terminal TACNode comandos, comando, ifSemElse;
 non terminal TACNode expressaoAritmetica, expressaoBooleana, comandoAritmetico;
 non terminal TACNode termoAritmetico, termoBooleano, termo;
 
@@ -108,7 +109,9 @@ tipoMetodo ::= BOOL | INT | VOID;
 metodos ::= declaracaoMetodo metodos
       | declaracaoMetodo;
 
-declaracaoMetodo ::= tipoMetodo ID PARESQ argumentos PARDIR CHAVEESQ comandos CHAVEDIR;
+main ::=  VOID MAIN PARESQ PARDIR CHAVEESQ comandos CHAVEDIR;
+
+declaracaoMetodo ::= tipoMetodo ID PARESQ argumentos PARDIR CHAVEESQ comandos CHAVEDIR | main;
 
 comandos ::= comandos comando:com
 {:

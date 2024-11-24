@@ -27,6 +27,7 @@ import java_cup.runtime.Symbol;
 
 // Palavras reservadas
 classe = class 
+main = main
 constante = True|False
 not = not
 and = and
@@ -69,7 +70,9 @@ ignorar = [\n|\s|\t\r]
 
 {boolType} { return symbol(sym.BOOL, yytext()); }
 {intType} { return symbol(sym.INT, yytext()); }
-{voidType} { return symbol(sym.VOID, , yytext()); }
+{voidType} { return symbol(sym.VOID, yytext()); }
+
+{main} { return symbol(sym.MAIN); }
 
 {if} { return symbol(sym.IF); }
 {else} { return symbol(sym.ELSE); }

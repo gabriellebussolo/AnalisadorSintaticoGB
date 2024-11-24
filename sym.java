@@ -23,6 +23,7 @@ public class sym {
   public static final int VIRGULA = 26;
   public static final int CONSTANTE = 8;
   public static final int EOF = 0;
+  public static final int MAIN = 28;
   public static final int PARESQ = 21;
   public static final int OPMENOR = 19;
   public static final int PARDIR = 22;
@@ -62,7 +63,8 @@ public class sym {
   "CHAVEDIR",
   "PONTOEVIRGULA",
   "VIRGULA",
-  "WHILE"
+  "WHILE",
+  "MAIN"
   };
 }
 
